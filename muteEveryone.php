@@ -28,14 +28,26 @@ try {
     $selfFollowingAccounts = $ig->people->getSelfFollowing($rankToken);
     // $selfFollowingAccounts->printJson();
 
+
+
+    $blockedList = $ig->people->getBlockedList();
+
+    $blockedList->printJson();
+
     $items = $selfFollowingAccounts->getUsers();
 
+    $userCount = sizeof($items);
+    echo "Processing {$userCount} users";
+
+    $i = 0;
     foreach ($items as $followedUser) {
-        echo "Muting user: {$followedUser->getUsername()} {$followedUser->getPk()}\n";
+
+        echo "Muting user {$i}: {$followedUser->getUsername()} {$followedUser->getPk()}\n";
         $muteResponse = $ig->people->muteUserMedia($followedUser->getPk(), "all");
         $sleepTime = rand(2, 3);
-        echo "Sleeping for {$sleepTime}..";
+        echo "Sleeping for {$sleepTime}..\n";
         sleep($sleepTime);
+        $i++;
     }
     echo "Done\n";
 } catch (\Exception $e) {
