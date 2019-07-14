@@ -5,10 +5,10 @@ date_default_timezone_set('UTC');
 require __DIR__.'/vendor/autoload.php';
 /////// CONFIG ///////
 $configFile = file_get_contents("./instagramConfig.json");
-$jsonConfig = json_decode($configFile, true);
+$jsonConfig = json_decode($configFile);
 
-$username = $jsonConfig["username"];
-$password = $jsonConfig["password"];
+$username = $jsonConfig->username;
+$password = $jsonConfig->password;
 $debug = true;
 $truncatedDebug = false;
 
