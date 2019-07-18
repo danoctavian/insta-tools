@@ -9,6 +9,7 @@ $jsonConfig = json_decode($configFile);
 
 $username = $jsonConfig->username;
 $password = $jsonConfig->password;
+$startingFollowedUserIndex = $jsonConfig->startingFollowedUserIndex;
 $debug = true;
 $truncatedDebug = false;
 
@@ -41,6 +42,12 @@ try {
 
     $i = 0;
     foreach ($items as $followedUser) {
+
+        if ($i < $startingFollowedUserIndex) {
+            echo "User already muted based on index. skipping {$i}\n";
+            $i++;
+            continue;
+        }
 
         echo "Muting user {$i}: {$followedUser->getUsername()} {$followedUser->getPk()}\n";
         $muteResponse = $ig->people->muteUserMedia($followedUser->getPk(), "all");
